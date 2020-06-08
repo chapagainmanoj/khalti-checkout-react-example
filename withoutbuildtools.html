@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  </head>
+
+  <body>
+    <button id="payment-button">Pay with Khalti</button>
+    <script type="text/javascript" src="https://cdn.khalti.com/staging/manoj/dist/khalti-checkout.iffe.js"></script>
+    <script>
+      let config = {
+        // replace the publicKey with yours
+        publicKey: "test_public_key_02f71893c56b48849716b01465a14cfe",
+        productIdentity: "1234567890",
+        productName: "Dragon",
+        productUrl: "http://gameofthrones.wikia.com/wiki/Dragons",
+        eventHandler: {
+          onSuccess(payload) {
+            // hit merchant api for initiating verfication
+            console.log(payload);
+          },
+          onError(error) {
+            console.log(error);
+          },
+          onClose() {
+            console.log("close called");
+          },
+        },
+        // paymentPreference: [
+        //   "MOBILE_BANKING",
+        //   "EBANKING",
+        //   "CONNECT_IPS",
+        //   "SCT",
+        // ],
+      };
+
+      var checkout = new KhaltiCheckout(config);
+      var btn = document.getElementById("payment-button");
+      btn.onclick = function () {
+        checkout.show({ amount: 1000 });
+      };
+    </script>
+  </body>
+</html>

@@ -1,23 +1,39 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import KhaltiCheckout from "khalti-checkout-web";
 
 function App() {
+  let config = {
+  // replace this key with yours
+  publicKey: "test_public_key_dc74e0fd57cb46cd93832aee0a390234",
+  productIdentity: "1234567890",
+  productName: "Drogon",
+  productUrl: "http://gameofthrones.com/buy/Dragons",
+  eventHandler: {
+    onSuccess(payload) {
+      // hit merchant api for initiating verfication
+      console.log(payload);
+    },
+    // onError handler is optional
+    onError(error) {
+      // handle errors
+      console.log(error);
+    },
+    onClose() {
+      console.log("widget is closing");
+    }
+  }
+};
+let checkout = new KhaltiCheckout(config);
+const onPayClicked = (e) => {
+  e.preventDefault();
+  checkout.show({ amount: 1000 });
+};
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <button onClick={onPayClicked}>Pay With Khalti</button>
       </header>
     </div>
   );
